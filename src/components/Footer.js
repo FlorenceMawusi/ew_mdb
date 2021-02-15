@@ -4,8 +4,6 @@ import {
   MDBContainer,
   MDBRow,
   MDBFooter,
-  MDBIcon,
-  MDBBtn,
   MDBInput,
 } from "mdbreact";
 import emailjs from "emailjs-com";

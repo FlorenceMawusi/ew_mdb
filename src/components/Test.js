@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { MDBRow, MDBCol, MDBBtn } from "mdbreact";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
 
 export default function Test() {
   const [selected, setSelected] = useState({
@@ -29,8 +30,33 @@ export default function Test() {
       sum += selected[key];
     }
     const results = Math.round((sum / 55) * 100);
-    console.log("results:", results);
-    history.push("/results");
+
+    const token = localStorage.getItem("token");
+
+    axios
+    .post(
+      "http://localhost:4000/results",
+      {
+        total: results,
+      },
+      {
+        headers: {
+          token: token,
+        },
+      }
+    )
+    .then((res) => {
+      console.log("results:", results);
+      window.localStorage.setItem("results", results);
+      history.push("/results");
+    })
+    .catch((err) => {
+      console.log(err);
+      alert("Sorry, try again. Something went wrong.");
+    });
+
+
+    
   };
 
   return (

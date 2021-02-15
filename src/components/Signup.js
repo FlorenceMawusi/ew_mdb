@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBInput } from "mdbreact";
 import axios from "axios";
-import {useHistory} from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
-const Signup = ({enter_account}) => {
+const Signup = ({ enter_account }) => {
   const [userName, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [gender, setGender] = useState("");
+  const [field, setField] = useState("");
+  const [age, setAge] = useState("");
   const history = useHistory();
 
   const checkSignup = (event) => {
@@ -30,8 +33,7 @@ const Signup = ({enter_account}) => {
         password: password,
       })
       .then((res) => {
-        
-        window.localStorage.setItem("token", res.data.token); 
+        window.localStorage.setItem("token", res.data.token);
         enter_account();
         history.push("/activities");
       })
@@ -39,6 +41,8 @@ const Signup = ({enter_account}) => {
         console.log(err);
       });
   };
+
+  console.log('gender',gender);
 
   return (
     <MDBContainer>
@@ -71,6 +75,18 @@ const Signup = ({enter_account}) => {
                   setEmail(event.target.value);
                 }}
               />
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="inputGroupSelect01">
+                    Gender
+                  </label>
+                </div>
+                <select class="custom-select" id="inputGroupSelect01">
+                  <option selected>Choose...</option>
+                  <option value="1" checked={gender === "male"}>Male</option>
+                  <option value="2" checked={gender === "female"}>Female</option>
+                </select>
+              </div>
               <MDBInput
                 label="Your password"
                 icon="lock"

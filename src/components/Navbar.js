@@ -13,7 +13,7 @@ import Activities from "./Activities";
 import Home from "./Home";
 import Signin from "./Signin";
 import Signup from "./Signup";
-import User_info from "./User_info";
+// import User_info from "./User_info";
 import SingleActivity from "./SingleActivity";
 import Timeline from "./Timeline";
 import Test from "./Test";
@@ -38,6 +38,7 @@ class NavbarPage extends Component {
   };
 
   logout = () => {
+    window.localStorage.removeItem('token');
     this.setState({ isLoggedIn: false });
   };
 

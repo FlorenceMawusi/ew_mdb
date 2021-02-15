@@ -34,62 +34,67 @@ const SocialPage = () => {
         console.log("error", err);
       });
   }, []);
-  console.log("reflections:", reflections);
+
   return (
     <div>
-      {reflections.map((each, index) => {
-        return (
-          <MDBRow key={each._id}>
-            <MDBCol md="6" lg="5" className="mx-auto">
-              <MDBCard news className="my-5 ">
-                <MDBCardBody>
-                  <div className="content">
-                    <div className="right-side-meta">14 h</div>
-                    <h5>{each.activity.title}</h5>
-                  </div>
-                </MDBCardBody>
-                <MDBCardImage
-                  style={{ maxHeight: "30rem" }}
-                  top
-                  src={each.activity.picture}
-                  alt=""
-                />
-                <MDBCardBody>
-                  <div className="social-meta">
-                    <p>{each.content}</p>
-                    <MDBRow>
-                      <MDBCol md="9">
-                        <span>
-                          <MDBIcon far icon="heart" className="purple-text" />
-                          {likes} likes
-                        </span>
-                        <p>
-                          <MDBIcon icon="comments" className="purple-text" />
-                          {comments} comments
-                        </p>
-                      </MDBCol>
-                      <MDBCol md="3">
-                        <span>
-                          <MDBIcon
-                            icon="heart"
-                            size="2x"
-                            className="purple-text"
-                            onChange={likeReflection}
-                          />
-                        </span>
-                      </MDBCol>
-                    </MDBRow>
-                  </div>
+      {/* Print the reflections given the condition that isPublic===true and isPublished===true */}
+      {reflections
+        .filter((each) => {
+          return each.isPublished === true && each.isPublic === true;
+        })
+        .map((each, index) => {
+          return (
+            <MDBRow key={each._id}>
+              <MDBCol md="6" lg="5" className="mx-auto">
+                <MDBCard news className="my-5 ">
+                  <MDBCardBody>
+                    <div className="content">
+                      <div className="right-side-meta">14 h</div>
+                      <h5>{each.activity.title}</h5>
+                    </div>
+                  </MDBCardBody>
+                  <MDBCardImage
+                    style={{ maxHeight: "30rem" }}
+                    top
+                    src={each.activity.picture}
+                    alt=""
+                  />
+                  <MDBCardBody>
+                    <div className="social-meta">
+                      <p>{each.content}</p>
+                      <MDBRow>
+                        <MDBCol md="9">
+                          <span>
+                            <MDBIcon far icon="heart" className="purple-text" />
+                            {likes} likes
+                          </span>
+                          <p>
+                            <MDBIcon icon="comments" className="purple-text" />
+                            {comments} comments
+                          </p>
+                        </MDBCol>
+                        <MDBCol md="3">
+                          <span>
+                            <MDBIcon
+                              icon="heart"
+                              size="2x"
+                              className="purple-text"
+                              onChange={likeReflection}
+                            />
+                          </span>
+                        </MDBCol>
+                      </MDBRow>
+                    </div>
 
-                  <hr />
+                    <hr />
 
-                  <MDBInput icon="comment-dots" hint="Add Comment..." />
-                </MDBCardBody>
-              </MDBCard>
-            </MDBCol>
-          </MDBRow>
-        );
-      })}
+                    <MDBInput icon="comment-dots" hint="Add Comment..." />
+                  </MDBCardBody>
+                </MDBCard>
+              </MDBCol>
+            </MDBRow>
+          );
+        })}
     </div>
   );
 };
