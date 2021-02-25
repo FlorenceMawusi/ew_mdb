@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  MDBCol,
-  MDBContainer,
-  MDBRow,
-  MDBFooter,
-  MDBInput,
-} from "mdbreact";
+import { MDBCol, MDBContainer, MDBRow, MDBFooter, MDBInput } from "mdbreact";
 import emailjs from "emailjs-com";
 
 const FooterPage = () => {
@@ -22,11 +16,11 @@ const FooterPage = () => {
       .then(
         (result) => {
           console.log(result.text);
-          alert('Message Successfully sent.')
+          alert("Message Successfully sent.");
         },
         (error) => {
           console.log(error.text);
-          alert('There was an error, please try again')
+          alert("There was an error, please try again");
         }
       );
   }
@@ -40,17 +34,22 @@ const FooterPage = () => {
         <h2 className="h1-responsive font-weight-bold text-center my-5">
           Contact us
         </h2>
-        <p className="text-center w-responsive mx-auto pb-5">
+        <h6 className="text-center w-responsive mx-auto pb-5">
           Impressed with the app? Or find it faulty? Anything you would like to
           tell me? I'm only a message away!
-        </p>
+        </h6>
         <MDBRow>
           <MDBCol md="9" className="md-0 mb-5 mx-auto">
             <form onSubmit={sendEmail}>
               <MDBRow>
                 <MDBCol md="6">
                   <div className="md-form mb-0">
-                    <MDBInput type="text" id="contact-name" name="from_name" label="Your name" />
+                    <MDBInput
+                      type="text"
+                      id="contact-name"
+                      name="from_name"
+                      label="Your name"
+                    />
                   </div>
                 </MDBCol>
                 <MDBCol md="6">
@@ -102,8 +101,7 @@ const FooterPage = () => {
       </MDBContainer>
       <div className="footer-copyright text-center py-3">
         <MDBContainer fluid>
-          &copy; {new Date().getFullYear()} Copyright:{" "}
-          <a href="https://www.mdbootstrap.com"> EmoWork </a>
+          &copy; {new Date().getFullYear()} Copyright: <a href="#"> EmoWork </a>
         </MDBContainer>
       </div>
     </MDBFooter>

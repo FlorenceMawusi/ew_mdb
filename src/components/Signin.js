@@ -1,12 +1,15 @@
-import React, { useState } from "react";
-import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from "mdbreact";
+import React, { useState, useContext } from "react";
+import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBIcon } from "mdbreact";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import {LoadingContext} from './Navbar';
 
 const Signin = ({ enter_account }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
+
+  const {showLoader, hideLoader} = React.useContext(LoadingContext);
 
   const checkLogin = (event) => {
     if (email === "") {
@@ -17,6 +20,7 @@ const Signin = ({ enter_account }) => {
       return;
     }
     event.preventDefault();
+    showLoader();
     axios
       .post("http://localhost:4000/user/login", {
         email: email,
@@ -26,6 +30,7 @@ const Signin = ({ enter_account }) => {
         window.localStorage.setItem("token", res.data.token);
         enter_account();
         history.push("/activities");
+        hideLoader();
       })
       .catch((err) => {
         console.log(err);
@@ -35,6 +40,7 @@ const Signin = ({ enter_account }) => {
 
   return (
     <MDBContainer>
+      
       <MDBRow>
         <MDBCol md="6" className="mt-5 mx-auto">
           <form>

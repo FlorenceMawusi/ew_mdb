@@ -15,37 +15,44 @@ const Signup = ({ enter_account }) => {
   const checkSignup = (event) => {
     if (userName === "") {
       alert("Please enter a username");
-      return;
     } else if (email === "") {
       alert("Please enter an email");
-      return;
+    } else if (gender === "" || gender === "choose...") {
+      alert("Please choose a gender");
+    } else if (field === "" || field === "choose...") {
+      alert("Please choose a field");
+    } else if (age === "" || age === "choose...") {
+      alert("Please choose an age");
     } else if (password === "") {
       alert("Please enter a password");
-      return;
     }
     event.preventDefault();
-
+//The  man is praying
     console.log("username", userName);
     axios
       .post("http://localhost:4000/user/signup", {
         username: userName,
         email: email,
+        field: field,
+        age: age,
+        field: field,
         password: password,
       })
       .then((res) => {
         window.localStorage.setItem("token", res.data.token);
         enter_account();
-        history.push("/activities");
+        history.push("/test");
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  console.log('gender',gender);
+  console.log("gender", gender);
 
   return (
     <MDBContainer>
+      <h2 className="mx-auto">Sign up</h2>
       <MDBRow>
         <MDBCol md="6" className="mt-5 mx-auto">
           <form>
@@ -81,12 +88,72 @@ const Signup = ({ enter_account }) => {
                     Gender
                   </label>
                 </div>
-                <select class="custom-select" id="inputGroupSelect01">
-                  <option selected>Choose...</option>
-                  <option value="1" checked={gender === "male"}>Male</option>
-                  <option value="2" checked={gender === "female"}>Female</option>
+                <select
+                  class="custom-select"
+                  id="inputGroupSelect01"
+                  onChange={(e) => setGender(e.target.value)}
+                >
+                  <option selected>choose...</option>
+                  <option>male</option>
+                  <option>female</option>
                 </select>
               </div>
+
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="inputGroupSelect01">
+                    Field of Work
+                  </label>
+                </div>
+                <select
+                  class="custom-select"
+                  id="inputGroupSelect01"
+                  onChange={(e) => setField(e.target.value)}
+                >
+                  <option selected>choose...</option>
+                  <option>Agriculture, Food, and Natural Resources</option>
+                  <option>Architecture and Construction</option>
+                  <option>
+                    Arts, Audio/Video Technology, and Communications
+                  </option>
+                  <option>Business, Management, and Administration</option>
+                  <option>Education and Training</option>
+                  <option>Finance</option>
+                  <option>Government and Public Administration</option>
+                  <option>Health Science</option>
+                  <option>Hospitality and Tourism</option>
+                  <option>Human Services</option>
+                  <option>Information Technology</option>
+                  <option>Law, Public Safety, Corrections, and Security</option>
+                  <option>Manufacturing</option>
+                  <option>Marketing, Sales, and Service</option>
+                  <option>
+                    Science, Technology, Engineering, and Mathematics
+                  </option>
+                  <option>Transportation, Distribution, and Logistics</option>
+                  <option>Other</option>
+                </select>
+              </div>
+
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="inputGroupSelect01">
+                    Age Group
+                  </label>
+                </div>
+                <select
+                  class="custom-select"
+                  id="inputGroupSelect01"
+                  onChange={(e) => setAge(e.target.value)}
+                >
+                  <option selected>choose...</option>
+                  <option>21 to 30</option>
+                  <option>31 to 40</option>
+                  <option>41 to 50</option>
+                  <option>51 to 60</option>
+                </select>
+              </div>
+              <br></br>
               <MDBInput
                 label="Your password"
                 icon="lock"
@@ -99,7 +166,7 @@ const Signup = ({ enter_account }) => {
               />
             </div>
             <div className="text-center">
-              <MDBBtn color="purple" type="submit" onClick={checkSignup}>
+              <MDBBtn color="purple" type="button" onClick={checkSignup}>
                 Register
               </MDBBtn>
             </div>

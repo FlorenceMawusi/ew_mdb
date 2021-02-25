@@ -10,28 +10,42 @@ import {
   MDBCardText,
   MDBCol,
   MDBRow,
+  MDBIcon,
 } from "mdbreact";
 
 const CardExample = () => {
   const [activities, setActivities] = useState([]);
   const history = useHistory();
+  const token = localStorage.getItem("token");
+
   useEffect(() => {
     axios
-      .get("http://localhost:4000/activities", {})
+      .get("http://localhost:4000/activities", {
+        headers: {
+          token: token,
+        },
+      })
       .then((data) => {
         setActivities(data.data);
-        console.log("activities", activities);
+        console.log("activities", data.data);
       })
       .catch((err) => {
         console.log("error", err);
       });
+
+    //make request to the backend
+    //access all the existing reflections in the backend.
   }, []);
-  console.log("activities:", activities);
 
   return (
     <div className="mx-4 mt-5">
+      <h2 className="text-center">Activities</h2>
+
       <MDBRow>
         {activities.map((each, index) => {
+          {
+            console.log("disabled:", each.disabled);
+          }
           return (
             <MDBCol
               key={each._id}
@@ -50,14 +64,21 @@ const CardExample = () => {
                   <MDBCardTitle style={{ height: "3rem" }}>
                     {each.title}
                   </MDBCardTitle>
-                  <MDBCardText>Day {index + 1}</MDBCardText>
+                  <MDBCardText>
+                    Day {index + 1}
+                    
+                    {each.isComplete === "no" && " (Draft)"}
+                    {each.isComplete === "blank" && " (Empty)"}
+                    {each.isComplete === "yes" && " (Done!)"}
+                  </MDBCardText>
                   <MDBBtn
+                    disabled={each.disabled}
                     color="purple"
                     onClick={() => {
                       history.push(`/activity/${each._id}`);
                     }}
                   >
-                    Open
+                    {each.disabled ? "Locked" : "Open"}
                   </MDBBtn>
                 </MDBCardBody>
               </MDBCard>

@@ -68,7 +68,7 @@ export default function Test() {
             <h5>
               The form below contains a series of questions to evaluate your
               emotional intelligence before and after the usage of the emotional
-              intelligence applications. If you have any questions, you can
+              intelligence applications. This is a standardised EI test. If you have any questions, you can
               contact me by sending your enquiries through the contact form on
               the footer.
               <br />

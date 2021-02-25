@@ -21,7 +21,7 @@ const CardExample = () => {
   const [reflection, setReflection] = useState("");
 
   const [isPublic, setisPublic] = useState(true);
-  const [isPublished, setIspublished] = useState(true);
+  const [isPublished, setIsPublished] = useState(true);
   const [reflectionid, setReflectionid] = useState("");
   const token = localStorage.getItem("token");
 
@@ -31,8 +31,6 @@ const CardExample = () => {
       return;
     }
     event.preventDefault();
-    console.log("It is published:", isPublished);
-    console.log("It is public:", isPublic);
     if (reflectionid) {
       axios
         .patch(
@@ -102,6 +100,9 @@ const CardExample = () => {
         headers: {
           token: token,
         },
+        params:{
+          activity_id: id,
+        }
       })
       .then((data) => {
         if (!data.data) {
@@ -109,21 +110,21 @@ const CardExample = () => {
         }
         console.log(data);
         setReflection(data.data.content);
-        setIspublished(data.data.isPublished);
         setisPublic(data.data.isPublic);
         setReflectionid(data.data._id);
       })
       .catch((err) => {
         console.log("error", err);
       });
+  }, []);
 
+  useEffect(() => {
     if (isPublished === false) {
       saveReflection({
         preventDefault: () => {},
       });
     }
   }, [isPublished]);
-  console.log("content", reflection);
 
   return (
     <MDBRow>
@@ -175,6 +176,7 @@ const CardExample = () => {
                   onClick={(event) => {
                     setisPublic((prev) => !prev);
                   }}
+                  checked={!isPublic}
                 />
                 {console.log(isPublic)}
                 <label className="custom-control-label" htmlFor="radio_one">
@@ -185,13 +187,15 @@ const CardExample = () => {
               <div className="mt-3">
                 <MDBBtn
                   color="purple"
+                  type="button"
                   onClick={() => {
-                    setIspublished(false);
+                    setIsPublished(false);
                   }}
                 >
                   Save as Draft
                 </MDBBtn>
-                <MDBBtn color="purple" onClick={saveReflection}>
+
+                <MDBBtn color="purple" type="button" onClick={saveReflection}>
                   Publish
                 </MDBBtn>
               </div>
