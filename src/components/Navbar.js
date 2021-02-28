@@ -25,8 +25,6 @@ import axios from "axios";
 
 export const LoadingContext = React.createContext();
 
-
-
 class NavbarPage extends Component {
   state = {
     isOpen: false,
@@ -56,48 +54,41 @@ class NavbarPage extends Component {
       this.setState({ isLoggedIn: true });
     }
 
-    if(token){
+    if (token) {
       //no. of user_reflections
       axios
-      .get("http://localhost:4000/reflections/usercount", {
-        headers: {
-          token: token,
-        },
-      })
-      .then((data) => {
-        this.setState({ref_count: data.data.ref_len})
-        console.log("ref_count", data);
-      })
-      .catch((err) => {
-        console.log("error", err);
-      });
-      
+        .get("http://localhost:4000/reflections/usercount", {
+          headers: {
+            token: token,
+          },
+        })
+        .then((data) => {
+          this.setState({ ref_count: data.data.ref_len });
+          
+        })
+        .catch((err) => {
+          console.log("error", err);
+        });
+        
+
       //no. of test results
       axios
-      .get("http://localhost:4000/results/usercount", {
-        headers: {
-          token: token,
-        },
-      })
-      .then((data) => {
-        this.setState({results_count: data.data.results_len})
-        console.log("results count", data);
-      })
-      .catch((err) => {
-        console.log("error", err);
-      });
-
-
+        .get("http://localhost:4000/results/usercount", {
+          headers: {
+            token: token,
+          },
+        })
+        .then((data) => {
+          this.setState({ results_count: data.data.results_len });
+          
+        })
+        .catch((err) => {
+          console.log("error", err);
+        });
     }
-    //show the test link if test result count is 0 or activity count is 10
-    //show the activity link if test count is >0
-
-    
   }
 
-  
   render() {
-   
     return (
       <div style={{ minHeight: "80vh" }}>
         <LoadingContext.Provider
@@ -123,20 +114,32 @@ class NavbarPage extends Component {
                 navbar
               >
                 <MDBNavbarNav left>
-                  <MDBNavItem >
+                  <MDBNavItem>
                     <MDBNavLink to="/">Home</MDBNavLink>
                   </MDBNavItem>
+                 
                   {this.state.isLoggedIn && (
                     <>
-                      <MDBNavItem >
-                        <MDBNavLink to="/activities">Activities</MDBNavLink>
-                      </MDBNavItem>
-                      <MDBNavItem active={this.isOnTheTImelinePage}>
+                      {
+                        //show the activity link if test count is >0
+                        
+                        this.state.results_count > 0 ? (
+                          <MDBNavItem>
+                            <MDBNavLink to="/activities">Activities</MDBNavLink>
+                          </MDBNavItem>
+                        ) : null
+                      }
+                      <MDBNavItem active={this.state.isOnTheTImelinePage}>
                         <MDBNavLink to="/timeline">Timeline</MDBNavLink>
                       </MDBNavItem>
-                      <MDBNavItem active={this.isOnTheTestPage}>
-                        <MDBNavLink to="/test">Take the EI Test</MDBNavLink>
-                      </MDBNavItem>
+                      {
+                        //show the test link if test result count is 0 or reflection count is 10
+                        this.state.results_count === 0 || this.state.ref_count === 10 ? (
+                          <MDBNavItem active={this.isOnTheTestPage}>
+                            <MDBNavLink to="/test">Take the EI Test</MDBNavLink>
+                          </MDBNavItem>
+                        ) : null
+                      }
                     </>
                   )}
                   <MDBNavItem active={this.isOnTheTestPage}>

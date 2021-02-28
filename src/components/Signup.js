@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBInput } from "mdbreact";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { LoadingContext } from "./Navbar";
 
 const Signup = ({ enter_account }) => {
   const [userName, setUsername] = useState("");
@@ -11,6 +12,8 @@ const Signup = ({ enter_account }) => {
   const [field, setField] = useState("");
   const [age, setAge] = useState("");
   const history = useHistory();
+
+  const {showLoader, hideLoader} = React.useContext(LoadingContext);
 
   const checkSignup = (event) => {
     if (userName === "") {
@@ -27,6 +30,7 @@ const Signup = ({ enter_account }) => {
       alert("Please enter a password");
     }
     event.preventDefault();
+    showLoader();
 //The  man is praying
     console.log("username", userName);
     axios
@@ -42,8 +46,11 @@ const Signup = ({ enter_account }) => {
         window.localStorage.setItem("token", res.data.token);
         enter_account();
         history.push("/test");
+        hideLoader();
       })
       .catch((err) => {
+        hideLoader();
+        alert('Sorry, sign up failed')
         console.log(err);
       });
   };

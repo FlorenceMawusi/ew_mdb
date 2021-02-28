@@ -78,10 +78,10 @@ export default function Results() {
         </div>
       ) : (
         //   else show the difference as an increase.
-        <div>
+        <div >
           <MDBRow>
-            <MDBCol>
-              <MDBCard>
+            <MDBCol md="6" className="mt-5 mx-auto">
+              <MDBCard  style={{ width: "25rem", margin: '0 auto', }}>
                 <MDBCardBody><MDBCardTitle>Your results are {currentResults}%</MDBCardTitle>
                 <MDBCardText>
                   Your previous results were {resultsarray[1].total}% Your EI
@@ -95,7 +95,7 @@ export default function Results() {
 
       <div className="text-center">
         <MDBBtn
-        className="text-center mb-4"
+        className="text-center mt-4"
           color="purple"
           onClick={() => {
             window.localStorage.removeItem("results");

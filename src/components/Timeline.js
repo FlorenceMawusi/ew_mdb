@@ -79,36 +79,49 @@ const SocialPage = () => {
   }, []);
 
   return (
-    <div>
-      <h2 className="mx-auto">Timeline</h2>
-      {/* Print the reflections given the condition that isPublic===true and isPublished===true */}
-      {reflections
-        .filter((each) => {
-          return each.isPublished === true && each.isPublic === true;
-        })
-        .map((each, index) => {
-          console.log();
-          return (
-            <MDBRow key={each._id}>
-              <MDBCol md="6" lg="5" className="mx-auto">
-                <MDBCard news className="my-5 ">
-                  <MDBCardBody>
-                    <div className="content">
-                      <div className="right-side-meta"> Created at: <br/>{each.datePosted}</div>
-                      <br/>
-                      <h5>{each.activity.title}</h5>
-                    </div>
-                  </MDBCardBody>
-                  <MDBCardImage
-                    style={{ maxHeight: "30rem" }}
-                    top
-                    src={each.activity.picture}
-                    alt=""
-                  />
-                  <MDBCardBody>
-                    <div className="social-meta">
-                      <p>{each.content}</p>
-                      {/* <MDBRow>
+    <div style={{ margin: "0 5em 0 5em" }}>
+      <h2 className="text-center" mt="4 ">
+        Timeline
+      </h2>
+      {reflections.length === 0 ? (
+        <div className="text-center">
+          <h3>Oops! Looks like there's no post here yet.</h3>
+        </div>
+      ) : (
+        <div>
+          {/* Print the reflections given the condition that isPublic===true and isPublished===true */}
+          {reflections
+            .filter((each) => {
+              return each.isPublished === true && each.isPublic === true;
+            })
+            .map((each) => {
+              console.log();
+              return (
+                <MDBRow key={each._id}>
+                  <MDBCol sm="" md="4" lg="4" className="mx-auto">
+                    <MDBCard news className="my-5 ">
+                      <MDBCardBody>
+                        <div className="content">
+                          <div className="right-side-meta">
+                            {" "}
+                            Created at: <br />
+                            {each.datePosted}
+                            <p>{each.user.username}</p>
+                          </div>
+                          <br />
+                          <h5>{each.activity.title}</h5>
+                        </div>
+                      </MDBCardBody>
+                      <MDBCardImage
+                        style={{ maxHeight: "30rem" }}
+                        top
+                        src={each.activity.picture}
+                        alt=""
+                      />
+                      <MDBCardBody>
+                        <div className="social-meta">
+                          <p>{each.content}</p>
+                          {/* <MDBRow>
                         <MDBCol md="9">
                           <span>
                             <MDBIcon icon="heart" className="purple-text" />
@@ -141,22 +154,22 @@ const SocialPage = () => {
                           </span>
                         </MDBCol>
                       </MDBRow> */}
-                    </div>
+                        </div>
 
-                    {/* <hr />
+                        {/* <hr />
 
                     <MDBInput icon="comment-dots" hint="Add Comment..." /> */}
-                  </MDBCardBody>
-                </MDBCard>
-              </MDBCol>
-            </MDBRow>
-          );
-        })}
+                      </MDBCardBody>
+                    </MDBCard>
+                  </MDBCol>
+                </MDBRow>
+              );
+            })}
+        </div>
+      )}
     </div>
   );
 };
-
-
 
 // const Like = (props) => {
 //   const { isLiked = false, setIsLiked = () => {} } = props;

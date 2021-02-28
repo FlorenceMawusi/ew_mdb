@@ -38,7 +38,7 @@ const CardExample = () => {
   }, []);
 
   return (
-    <div className="mx-4 mt-5">
+    <div style={{margin: "0 5em 0 5em"}}>
       <h2 className="text-center">Activities</h2>
 
       <MDBRow>
@@ -49,7 +49,7 @@ const CardExample = () => {
           return (
             <MDBCol
               key={each._id}
-              className="mt-3 mb-3"
+              className="mt-3 mb-3 mx-auto"
               md="3"
               style={{ maxWidth: "22rem" }}
             >

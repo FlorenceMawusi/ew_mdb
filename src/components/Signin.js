@@ -33,8 +33,9 @@ const Signin = ({ enter_account }) => {
         hideLoader();
       })
       .catch((err) => {
+        hideLoader();
         console.log(err);
-        alert(err);
+        alert("sorry, Login failed");
       });
   };
 

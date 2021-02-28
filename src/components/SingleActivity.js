@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   MDBCard,
   MDBCardBody,
@@ -11,6 +11,7 @@ import {
   MDBInput,
   MDBBtn,
 } from "mdbreact";
+import { LoadingContext } from "./Navbar";
 import { useParams, useHistory } from "react-router-dom";
 import axios from "axios";
 const CardExample = () => {
@@ -25,12 +26,15 @@ const CardExample = () => {
   const [reflectionid, setReflectionid] = useState("");
   const token = localStorage.getItem("token");
 
+  const { showLoader, hideLoader } = React.useContext(LoadingContext);
+
   const saveReflection = (event) => {
     if (reflection === "") {
       alert("Please enter a reflection");
       return;
     }
     event.preventDefault();
+    showLoader();
     if (reflectionid) {
       axios
         .patch(
@@ -49,10 +53,12 @@ const CardExample = () => {
         )
         .then((res) => {
           console.log(res);
+          hideLoader();
           alert("Reflection Saved");
           history.push("/activities");
         })
         .catch((err) => {
+          hideLoader();
           console.log(err);
           alert("Sorry, try again. Something went wrong.");
         });
@@ -73,11 +79,13 @@ const CardExample = () => {
           }
         )
         .then((res) => {
+          hideLoader();
           console.log(res);
           alert("Reflection Saved");
           history.push("/activities");
         })
         .catch((err) => {
+          hideLoader();
           console.log(err);
           alert("Sorry, try again. Something went wrong.");
         });
@@ -100,9 +108,9 @@ const CardExample = () => {
         headers: {
           token: token,
         },
-        params:{
+        params: {
           activity_id: id,
-        }
+        },
       })
       .then((data) => {
         if (!data.data) {
@@ -141,7 +149,14 @@ const CardExample = () => {
                 {activity.title}
               </MDBCardTitle>
               <h5 className="indigo-text">
-                <strong>{activity.reflection_prompt}</strong>
+                <strong>
+                  {activity.reflection_prompt?.split(`\\n`).map((each) => (
+                    <>
+                      {each}
+                      <br />
+                    </>
+                  ))}
+                </strong>
               </h5>
             </MDBCardBody>
           </MDBCard>
